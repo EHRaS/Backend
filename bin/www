@@ -119,18 +119,4 @@ var server = http.createServer(app);
 
 server.on('error', onError);
 server.on('listening', onListening);
-q.fcall(
-  db.exec('CREATE TABLE IF NOT EXISTS "table1" ' +
-    '("id" INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-    'field1 TEXT, ' +
-    'field2 TEXT, ' +
-    'field3 TEXT, ' +
-    'field4 TEXT, ' +
-    'field5 INTEGER);' +
-    ' ' +
-    'CREATE TABLE IF NOT EXISTS "tabl2" ' +
-    '("id" INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-    'field1 TEXT, ' +
-    'field2 TEXT, ' +
-    'field3 INTEGER)')
-).then(server.listen(port)).then(module.exports = server);
+q.fcall(db.exec('CREATE TABLE IF NOT EXISTS "data" (id INTEGER PRIMARY KEY AUTOINCREMENT, patientData TEXT);')).then(server.listen(port)).then(module.exports = server);

@@ -25,11 +25,11 @@ function auth(req, res, next) {
         return;
     }
 
-    var user = basicAuth(req);
-
-    if (!user || !user.name || !user.pass) {
-        return unauthorized(res);
-    }
+    // var user = basicAuth(req);
+    //
+    // if (!user || !user.name || !user.pass) {
+    //     return unauthorized(res);
+    // }
 
     // TODO set up actual authentication
     var authorized = true;

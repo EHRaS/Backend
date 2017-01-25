@@ -14,11 +14,9 @@ router.post('/', function(req, res, next) {
     }
 
     // phew. we made it. stick it in.
-    db.run("INSERT INTO table (field1, field2, field3)" +
-        " VALUES ($val1, $val2, $val3)", {
-            $val1: req.body.sentfield1,
-            $val2: req.body.sentfield2,
-            $val3: req.body.sentfield3
+    db.run("INSERT INTO data (patientData)" +
+        " VALUES ($val1)", {
+            $val1: req.body.data
         },
         function(err) {
             if (err) {
@@ -48,8 +46,8 @@ router.get('/:id', function(req, res, next) {
     }
 
     // get the entry
-    db.all("SELECT *" +
-        " FROM table1" +
+    db.all("SELECT patientData" +
+        " FROM data" +
         " WHERE id = $id", {
             $id: req.params.id,
         },
