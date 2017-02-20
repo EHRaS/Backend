@@ -10,7 +10,7 @@ var cors = require('cors');
 var config = require('./data/config');
 
 // route loading
-var exampleroute = require('./routes/exampleroute');
+var dataroute = require('./routes/data');
 
 var app = express();
 app.use(cors());
@@ -53,10 +53,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 // protect routes
-app.use('/exampleroute', auth);
+app.use('/data', auth);
 
 // route to controllers
-app.use('/exampleroute', exampleroute);
+app.use('/data', dataroute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

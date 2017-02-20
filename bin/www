@@ -85,9 +85,9 @@ function log(string) {
  * Ensure database is up and running
  */
 if (process.env.NODE_ENV === "test") {
-  GLOBAL.db = new sqlite3.Database(config.db.test_location);
+  global.db = new sqlite3.Database(config.db.test_location);
 } else {
-  GLOBAL.db = new sqlite3.Database(config.db.location);
+  global.db = new sqlite3.Database(config.db.location);
 }
 
 // db.on('trace', function(query){ console.log(query); });
@@ -119,4 +119,4 @@ var server = http.createServer(app);
 
 server.on('error', onError);
 server.on('listening', onListening);
-q.fcall(db.exec('CREATE TABLE IF NOT EXISTS "data" (id INTEGER PRIMARY KEY AUTOINCREMENT, patientData TEXT);')).then(server.listen(port)).then(module.exports = server);
+q.fcall(db.exec('CREATE TABLE IF NOT EXISTS "data" (id TEXT PRIMARY KEY, patientData TEXT);')).then(server.listen(port)).then(module.exports = server);
