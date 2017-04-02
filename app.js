@@ -11,6 +11,7 @@ var config = require('./data/config');
 
 // route loading
 var dataroute = require('./routes/data');
+var uuidroute = require('./routes/uuid');
 
 var app = express();
 app.use(cors());
@@ -20,18 +21,12 @@ app.use(cors());
  */
 function auth(req, res, next) {
     function unauthorized(res) {
-        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         res.status(401).send();
         return;
     }
 
-    // var user = basicAuth(req);
-    //
-    // if (!user || !user.name || !user.pass) {
-    //     return unauthorized(res);
-    // }
+    // actual authentication goes here
 
-    // TODO set up actual authentication
     var authorized = true;
     if (!authorized) {
         // I never knew you
@@ -54,9 +49,11 @@ app.use(bodyParser.urlencoded({
 
 // protect routes
 app.use('/data', auth);
+app.use('/uuid', auth);
 
 // route to controllers
 app.use('/data', dataroute);
+app.use('/uuid', uuidroute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
