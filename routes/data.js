@@ -4,39 +4,6 @@ var express = require('express');
 var router = express.Router();
 var uuidV4 = require('uuid/v4');
 
-// router.post('/', function(req, res, next) {
-//     // not enough fields were provided
-//     if (req.body === undefined) {
-//         res.setHeader('Content-Type', 'application/json');
-//         res.status(400).send(JSON.stringify({
-//             error: "No request"
-//         }));
-//         return;
-//     }
-//
-//     // phew. we made it. stick it in.
-//     var patientUUID = uuidV4();
-//     db.run("INSERT INTO data (id, patientData)" +
-//         " VALUES ($uuid, $data)", {
-//             $uuid: patientUUID,
-//             $data: req.body.data
-//         },
-//         function(err) {
-//             if (err) {
-//                 res.setHeader('Content-Type', 'application/json');
-//                 res.status(400).send(JSON.stringify({
-//                     dbError: err
-//                 }));
-//                 return;
-//             }
-//
-//             // you dun gud
-//             res.setHeader('Content-Type', 'application/json');
-//             res.setHeader('XCreated-ID', patientUUID);
-//             res.status(201).send();
-//         });
-// });
-
 router.get('/:id', function(req, res, next) {
     // not enough fields were provided
     if (req.params === {}) {

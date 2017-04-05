@@ -30,7 +30,7 @@ router.get('/new', function(req, res, next) {
             }
 
             // you dun gud
-            res.setHeader('XCreated-ID', cipherUUID);
+            res.setHeader('X-Created-ID', cipherUUID);
             res.status(201).send();
         });
 });
@@ -47,7 +47,6 @@ router.post('/decrypt', function(req, res, next) {
 
     var UUIDbytes = CryptoJS.AES.decrypt(req.body.uuid, cryptoKey.cryptoKey);
     var UUIDplaintext = UUIDbytes.toString(CryptoJS.enc.Utf8);
-    console.log(UUIDplaintext)
 
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('X-UUID', UUIDplaintext);

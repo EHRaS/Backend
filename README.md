@@ -17,7 +17,7 @@ Accepts an encrypted UUID as an url param and returns the client data. HTTP 200 
 Accepts a UUID as an url param and an updated payload in form-urlencoded form. HTTP 2014 No Response indicates success (no data will be returned). 400 indicates error state.
 
 ## GET /uuid/new
-Returns an encrypted UUID and creates space in the DB for that UUID
+Returns an encrypted UUID and creates space in the DB for that UUID. Returned in the header `X-Created-ID`.
 
 ## POST /uuid/decrypt
-Returns a decrypted UUI when the encrypted UUID is provided as `x-www-form-urlencoded` data with the key `uuid`
+Returns a decrypted UUI when the encrypted UUID is provided as `x-www-form-urlencoded` data with the key `uuid`. Returned in the header `X-UUID`.
