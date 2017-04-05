@@ -10,10 +10,10 @@ Fill your SSL certs as outlined in `bin/www` in the `data/ssl` folder.
 
 # Basic routes
 
-## GET /data/:id
+## GET /data/:id/:sk
 Accepts an encrypted UUID as an url param and returns the client data. HTTP 200 indicates successful retrieval. 400 indicates error state. 404 indicates no record found.
 
-## PATCH /data/:id
+## POST /data/:id/:sk
 Accepts a UUID as an url param and an updated payload in form-urlencoded form. HTTP 2014 No Response indicates success (no data will be returned). 400 indicates error state.
 
 ## GET /uuid/new

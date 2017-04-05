@@ -119,4 +119,4 @@ var server = http.createServer(app);
 
 server.on('error', onError);
 server.on('listening', onListening);
-q.fcall(db.exec('CREATE TABLE IF NOT EXISTS "data" (id TEXT PRIMARY KEY, patientData TEXT);')).then(server.listen(port)).then(module.exports = server);
+q.fcall(db.exec('CREATE TABLE IF NOT EXISTS "data" (id TEXT PRIMARY KEY, patientData TEXT); CREATE TABLE IF NOT EXISTS "sessions" (uuid TEXT, sk TEXT PRIMARY KEY, expires INTEGER);')).then(server.listen(port)).then(module.exports = server);

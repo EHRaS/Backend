@@ -8,13 +8,16 @@ var bodyParser = require('body-parser');
 var basicAuth = require('basic-auth');
 var cors = require('cors');
 var config = require('./data/config');
+var cookieParser = require('cookie-parser')
 
 // route loading
 var dataroute = require('./routes/data');
 var uuidroute = require('./routes/uuid');
+var sessionroute = require('./routes/session');
 
 var app = express();
 app.use(cors());
+app.use(cookieParser())
 
 /**
  * Basic Auth/DB auth system
@@ -26,8 +29,9 @@ function auth(req, res, next) {
     }
 
     // actual authentication goes here
-
     var authorized = true;
+
+
     if (!authorized) {
         // I never knew you
         return unauthorized(res);
@@ -50,10 +54,12 @@ app.use(bodyParser.urlencoded({
 // protect routes
 app.use('/data', auth);
 app.use('/uuid', auth);
+app.use('/session', auth);
 
 // route to controllers
 app.use('/data', dataroute);
 app.use('/uuid', uuidroute);
+app.use('/session', sessionroute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
