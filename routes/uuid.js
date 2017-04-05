@@ -12,8 +12,7 @@ router.get('/new', function(req, res, next) {
     var cipherUUIDBytes = CryptoJS.AES.encrypt(plaintextUUID, config.cryptoKey);
     var cipherUUID = cipherUUIDBytes.toString();
 
-    res.setHeader('X-Created-ID', cipherUUID);
-    res.status(201).send();
+    res.status(201).send(cipherUUID);
 });
 
 router.post('/decrypt', function(req, res, next) {
@@ -30,8 +29,7 @@ router.post('/decrypt', function(req, res, next) {
     var UUIDplaintext = UUIDbytes.toString(CryptoJS.enc.Utf8);
 
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('X-UUID', UUIDplaintext);
-    res.status(201).send();
+    res.status(201).send(UUIDplaintext);
 });
 
 module.exports = router;
