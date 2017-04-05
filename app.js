@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var basicAuth = require('basic-auth');
 var cors = require('cors');
 var config = require('./data/config');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 
 // route loading
 var dataroute = require('./routes/data');
@@ -17,7 +17,7 @@ var sessionroute = require('./routes/session');
 
 var app = express();
 app.use(cors());
-app.use(cookieParser())
+app.use(cookieParser());
 
 /**
  * Basic Auth/DB auth system
