@@ -44,7 +44,7 @@ router.get('/:uuid', function(req, res, next) {
                 db.run("INSERT INTO data (id, patientData)" +
                     " VALUES ($uuid, $data)", {
                         $uuid: req.params.uuid,
-                        $data: '{}'
+                        $data: '{"dummydata": 1}'
                     },
 
                     function(err) {

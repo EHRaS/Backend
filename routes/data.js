@@ -106,12 +106,12 @@ router.post('/:id/:sk', function(req, res, next) {
             }
 
             // good session key. Write the data.
-            db.run("UPDATE data set patientData = $data" +
-                " WHERE id = $uuid", {
-                    $uuid: req.params.id,
-                    $data: req.body.data
+            db.all("SELECT patientData" +
+                " FROM data" +
+                " WHERE id = $id", {
+                    $id: req.params.id,
                 },
-                function(err) {
+                function(err, results) {
                     if (err) {
                         res.setHeader('Content-Type', 'application/json');
                         res.status(400).send(JSON.stringify({
@@ -120,10 +120,38 @@ router.post('/:id/:sk', function(req, res, next) {
                         return;
                     }
 
-                    // you dun gud
-                    res.setHeader('Content-Type', 'application/json');
-                    res.status(204).send();
+                    var originalNewData = req.body.data;
+
+                    if(JSON.parse(results[0].patientData).hasOwnProperty('photoURI') && !JSON.parse(req.body.data).hasOwnProperty('photoURI')){
+                        // the sent data doesn't have an image but the historical data does
+                        var newData = JSON.parse(req.body.data);
+                        var historicalData = JSON.parse(results[0].patientData);
+                        newData.photoURI = historicalData.photoURI;
+                        originalNewData = JSON.stringify(newData);
+                    }
+
+                    db.run("UPDATE data set patientData = $data" +
+                        " WHERE id = $uuid", {
+                            $uuid: req.params.id,
+                            $data: originalNewData
+                        },
+                        function(err) {
+                            if (err) {
+                                res.setHeader('Content-Type', 'application/json');
+                                res.status(400).send(JSON.stringify({
+                                    dbError: err
+                                }));
+                                return;
+                            }
+
+                            // you dun gud
+                            res.setHeader('Content-Type', 'application/json');
+                            res.status(204).send();
+                        });
                 });
+
+
+
         });
 });
 
