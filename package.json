@@ -1,27 +1,30 @@
 {
-  "name": "EHRaS",
-  "version": "0.0.1",
-  "private": true,
-  "license": "MIT",
-  "scripts": {
-    "start": "node ./bin/www",
-    "test": "cp -n ./data/config.js.example ./data/config.js && mocha --recursive",
-    "lint": "jshint ."
-  },
-  "dependencies": {
-    "basic-auth": "^1.0.3",
-    "body-parser": "~1.16.0",
-    "cookie-parser": "~1.4.3",
-    "cors": "^2.7.1",
-    "express": "~4.14.0",
-    "mkdirp": "^0.5.1",
-    "morgan": "~1.7.0",
-    "multer": "^1.1.0",
-    "q": "^1.4.1",
-    "request": "^2.65.0",
-    "rimraf": "^2.4.3",
-    "sqlite3": "^3.1.0",
-    "twilio": "^2.5.2",
-    "crypto-js": "^3.1.9-1"
-  }
+    "name": "EHRaS",
+    "version": "0.0.1",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "start": "node ./bin/www",
+        "test": "cp -n ./data/config.js.example ./data/config.js && mocha --recursive",
+        "lint": "jshint ."
+    },
+    "dependencies": {
+        "basic-auth": "^1.0.3",
+        "body-parser": "~1.16.0",
+        "cookie-parser": "~1.4.3",
+        "cors": "^2.7.1",
+        "express": "~4.14.0",
+        "mkdirp": "^0.5.1",
+        "morgan": "~1.7.0",
+        "multer": "^1.1.0",
+        "q": "^1.4.1",
+        "request": "^2.65.0",
+        "rimraf": "^2.4.3",
+        "sqlite3": "^3.1.0",
+        "twilio": "^2.5.2",
+        "crypto-js": "^3.1.9-1"
+    },
+    "scripts": {
+        "start": "node ./bin/www"
+    }
 }
