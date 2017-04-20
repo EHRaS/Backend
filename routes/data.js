@@ -3,6 +3,8 @@
 var express = require('express');
 var router = express.Router();
 var uuidV4 = require('uuid/v4');
+var CryptoJS = require("crypto-js");
+var config = require('../config.js');
 
 router.get('/:id/:sk', function(req, res, next) {
     // not enough fields were provided
@@ -58,9 +60,13 @@ router.get('/:id/:sk', function(req, res, next) {
                         return;
                     }
 
+                    // decrypt data
+                    var dataBytes = CryptoJS.AES.decrypt(results[0].patientData, config.cryptoKey);
+                    var dataPlaintext = dataBytes.toString(CryptoJS.enc.Utf8);
+
                     // return the data
                     res.setHeader('Content-Type', 'application/json');
-                    res.status(200).send(results[0]);
+                    res.status(200).send(dataPlaintext);
                 });
         });
 });
@@ -122,18 +128,27 @@ router.post('/:id/:sk', function(req, res, next) {
 
                     var originalNewData = req.body.data;
 
-                    if(JSON.parse(results[0].patientData).hasOwnProperty('photoURI') && !JSON.parse(req.body.data).hasOwnProperty('photoURI')){
+                    // decrypt existing data
+                    var dataBytes = CryptoJS.AES.decrypt(results[0].patientData, config.cryptoKey);
+                    var dataPlaintext = dataBytes.toString(CryptoJS.enc.Utf8);
+
+                    // use existing image data if there is none sent, which can happen to save data
+                    if (JSON.parse(dataPlaintext).hasOwnProperty('photoURI') && !JSON.parse(req.body.data).hasOwnProperty('photoURI')) {
                         // the sent data doesn't have an image but the historical data does
                         var newData = JSON.parse(req.body.data);
-                        var historicalData = JSON.parse(results[0].patientData);
+                        var historicalData = JSON.parse(dataPlaintext);
                         newData.photoURI = historicalData.photoURI;
                         originalNewData = JSON.stringify(newData);
                     }
 
+                    // encrypt before rest
+                    var cipherDataBytes = CryptoJS.AES.encrypt(originalNewData, config.cryptoKey);
+                    var cipherDataString = cipherDataBytes.toString();
+
                     db.run("UPDATE data set patientData = $data" +
                         " WHERE id = $uuid", {
                             $uuid: req.params.id,
-                            $data: originalNewData
+                            $data: cipherDataString
                         },
                         function(err) {
                             if (err) {

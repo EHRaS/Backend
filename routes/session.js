@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var config = require('../config.js');
+var CryptoJS = require("crypto-js");
 
 function randomString(len) {
     var charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -39,12 +40,16 @@ router.get('/:uuid', function(req, res, next) {
                 return;
             }
 
+            // encrypt before rest
+            var cipherDataBytes = CryptoJS.AES.encrypt('{"dummydata": 1}', config.cryptoKey);
+            var cipherDataString = cipherDataBytes.toString();
+
             // nothing for that ID; create it
             if (results.length === 0) {
                 db.run("INSERT INTO data (id, patientData)" +
                     " VALUES ($uuid, $data)", {
                         $uuid: req.params.uuid,
-                        $data: '{"dummydata": 1}'
+                        $data: cipherDataString
                     },
 
                     function(err) {
